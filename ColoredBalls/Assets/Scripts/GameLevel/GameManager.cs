@@ -7,11 +7,15 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject readyImage;
+
+    string whichLevel;
+    int çarpanbir;
+
     void Start()
     {
         if (PlayerPrefs.HasKey("whichLevel"))
         {
-           // Debug.Log(PlayerPrefs.GetString("whichLevel"));
+            whichLevel = PlayerPrefs.GetString("whichLevel");
         }
 
         StartCoroutine(ReadyRoutine());
@@ -32,6 +36,45 @@ public class GameManager : MonoBehaviour
 
     void StartGame()
     {
-        Debug.Log("Oyun baþladý");
+        LevelNumber();
+    }
+
+    void LevelNumber()
+    {
+        switch (whichLevel)
+        {
+            case"one":
+                çarpanbir = 2;
+                break;
+            case "two":
+                çarpanbir = 3;
+                break;
+            case "three":
+                çarpanbir = 4;
+                break;
+            case "four":
+                çarpanbir = 5;
+                break;
+            case "five":
+                çarpanbir = 5; // Hareket etsin
+                break;
+            case "six":
+                çarpanbir = 5; // arada kaybolsun 
+                break;
+            case "seven":
+                çarpanbir = 2; 
+                break;
+            case "eight":
+                çarpanbir = 2;
+                break;
+            case "nine":
+                çarpanbir = 2;
+                break;
+            case "ten":
+                çarpanbir = 2;
+                break;
+        }
+
+        Debug.Log(whichLevel);
     }
 }

@@ -16,6 +16,14 @@ public class PlayerMAnager : MonoBehaviour
 
     [SerializeField]
     private Transform ballPosition;
+
+    [SerializeField]
+    private Transform ballImagePosition;
+
+
+    float standbyTime = 300f; // iki mermi arasý bekleme süresi
+    float nextShot; // sonraki atýþ
+
     void Update()
     {
         RotateChange();
@@ -23,24 +31,35 @@ public class PlayerMAnager : MonoBehaviour
 
     void RotateChange()
     {
+
+        Vector2 diretiton = Camera.main.ScreenToWorldPoint(Input.mousePosition) - gun.transform.position;
+
+        angle = Mathf.Atan2(diretiton.y, diretiton.x) * Mathf.Rad2Deg - 90;
+        //atan =direk içeriye verdiðin deðeri açýya çevirir atan2= 2 deðer alýr burdan çýkan ölçü radyandýr. Rad2Deg radyaný dereceye dönüþtürür.
+
+        if (angle<45 && angle>-40)
+        {
+            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+            gun.transform.rotation = Quaternion.Slerp(gun.transform.rotation, rotation, donrotationSpeed * Time.deltaTime);
+
+            //sert dönmesini istemioyruz o yüzden Slerp kullandýk.
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
-            Vector2 diretiton = Camera.main.ScreenToWorldPoint(Input.mousePosition) - gun.transform.position;
+            if (Time.time>nextShot)
+            {
+                nextShot = Time.time + standbyTime / 1000;
+                BallThrow();
+            }
 
-            angle = Mathf.Atan2(diretiton.y, diretiton.x) * Mathf.Rad2Deg - 90;
-            //atan =direk içeriye verdiðin deðeri açýya çevirir atan2= 2 deðer alýr burdan çýkan ölçü radyandýr. Rad2Deg radyaný dereceye dönüþtürür.
-
-            BallThrow();
         }
-        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-
-        gun.transform.rotation = Quaternion.Slerp(gun.transform.rotation, rotation, donrotationSpeed * Time.deltaTime);
-
-        //sert dönmesini istemioyruz o yüzden Slerp kullandýk.
     }
 
     void BallThrow()
     {
         GameObject ball = Instantiate(ballPrefab[Random.Range(0,ballPrefab.Length)],ballPosition.position,ballPosition.rotation) as GameObject;
+        
     } 
 }
