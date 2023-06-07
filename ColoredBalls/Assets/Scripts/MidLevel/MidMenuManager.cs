@@ -10,14 +10,17 @@ public class MidMenuManager : MonoBehaviour
     private GameObject midMenuPanel;
     void Start()
     {
-        midMenuPanel.GetComponent<CanvasGroup>().DOFade(1, 1f);
-        midMenuPanel.GetComponent<RectTransform>().DOScale(1, 1f).SetEase(Ease.OutBack);
+        if (midMenuPanel != null)
+        {
+            midMenuPanel.GetComponent<CanvasGroup>().DOFade(1, 1f);
+            midMenuPanel.GetComponent<RectTransform>().DOScale(1, 1f).SetEase(Ease.OutBack);    
+
+        }
     }
 
     public void WhichLevel(string whichLevel)
     {
-        Debug.Log(whichLevel);
-
+        PlayerPrefs.SetString("whichLevel", whichLevel);
         SceneManager.LoadScene("GameLevel");
     }
 
