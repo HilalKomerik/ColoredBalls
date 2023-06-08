@@ -12,6 +12,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Text questionText, firstResultText, secondResultText, thirdResultText;
 
+
+    [SerializeField]
+    private GameObject trueImage, falseImage;
+
+
     [SerializeField]
     private Text trueText, falseText, pointsText;
 
@@ -25,13 +30,22 @@ public class GameManager : MonoBehaviour
     int firstFalseResult; // birinci yanlýþ
     int secondFalseResult; //ikinci yanlýþ 
 
+    PlayerMAnager playerMAnager;
 
     int falseNumber, trueNumber, totalPoints;
+
+    private void Awake()
+    {
+        playerMAnager = Object.FindObjectOfType<PlayerMAnager>();
+    }
     void Start()
     {
         falseNumber = 0;
         trueNumber = 0;
         totalPoints = 0;
+
+        trueImage.GetComponent<RectTransform>().localScale = Vector3.zero;
+        falseImage.GetComponent<RectTransform>().localScale = Vector3.zero;
 
         if (PlayerPrefs.HasKey("whichLevel"))
         {
@@ -55,6 +69,7 @@ public class GameManager : MonoBehaviour
 
     void StartGame()
     {
+        playerMAnager.changeRoute = true;
         PrintQuestion();
     }
 
@@ -161,14 +176,21 @@ public class GameManager : MonoBehaviour
 
     public void CheckResult(int textResult)
     {
+
+        trueImage.GetComponent<RectTransform>().localScale = Vector3.zero;
+        falseImage.GetComponent<RectTransform>().localScale = Vector3.zero;
+
         if (textResult == correctResult)
         {
             trueNumber++;
             totalPoints += 20;
+
+            trueImage.GetComponent<RectTransform>().DOScale(0.5f, 1f);
         }
         else
         {
             falseNumber++;
+            falseImage.GetComponent<RectTransform>().DOScale(0.5f, 1f);
         }
 
         trueText.text = trueNumber.ToString() + " DOGRU";

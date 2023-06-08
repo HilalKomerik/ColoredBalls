@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - ball
+  - fish_blue
+  - fish_purple
+  - fish_green
   layers:
   - Default
   - TransparentFX

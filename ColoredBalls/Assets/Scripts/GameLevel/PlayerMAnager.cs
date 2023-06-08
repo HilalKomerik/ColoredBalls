@@ -18,15 +18,27 @@ public class PlayerMAnager : MonoBehaviour
     private Transform ballPosition;
 
     [SerializeField]
-    private Transform ballImagePosition;
+    private AudioSource audioSource;
 
+    [SerializeField]
+    private AudioClip ballClick;
+
+
+    public bool changeRoute;
 
     float standbyTime = 300f; // iki mermi arasý bekleme süresi
     float nextShot; // sonraki atýþ
-
+    private void Start()
+    {
+        changeRoute = false;
+    }
     void Update()
     {
-        RotateChange();
+
+        if (changeRoute)
+        {
+            RotateChange();
+        }
     }
 
     void RotateChange()
@@ -59,6 +71,11 @@ public class PlayerMAnager : MonoBehaviour
 
     void BallThrow()
     {
+        if (PlayerPrefs.GetInt("soundStatus") == 1)
+        {
+            audioSource.PlayOneShot(ballClick);
+        }
+
         GameObject ball = Instantiate(ballPrefab[Random.Range(0,ballPrefab.Length)],ballPosition.position,ballPosition.rotation) as GameObject;
         
     } 

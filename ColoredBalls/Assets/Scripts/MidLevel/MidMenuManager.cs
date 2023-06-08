@@ -8,6 +8,12 @@ public class MidMenuManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject midMenuPanel;
+
+    [SerializeField]
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private AudioClip butonClick;
     void Start()
     {
         if (midMenuPanel != null)
@@ -20,12 +26,22 @@ public class MidMenuManager : MonoBehaviour
 
     public void WhichLevel(string whichLevel)
     {
+        if (PlayerPrefs.GetInt("soundStatus") == 1)
+        {
+            audioSource.PlayOneShot(butonClick);
+        }
+
         PlayerPrefs.SetString("whichLevel", whichLevel);
         SceneManager.LoadScene("GameLevel");
     }
 
     public void BackButton()
     {
+        if (PlayerPrefs.GetInt("soundStatus") == 1)
+        {
+            audioSource.PlayOneShot(butonClick);
+        }
+
         SceneManager.LoadScene("MenuManager");
     }
 
